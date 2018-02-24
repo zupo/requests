@@ -8,7 +8,7 @@ This module provides a Session object to manage and persist settings across
 requests (cookies, auth, proxies).
 """
 import os
-import platform
+import sys
 import time
 from collections import Mapping, OrderedDict
 from datetime import timedelta
@@ -40,7 +40,7 @@ from .status_codes import codes
 from .models import REDIRECT_STATI
 
 # Preferred clock, based on which one is more accurate on a given system.
-if platform.system() == 'Windows':
+if sys.platform == 'win32':
     try:  # Python 3.4+
         preferred_clock = time.perf_counter
     except AttributeError:  # Earlier than Python 3.
@@ -134,7 +134,7 @@ class SessionRedirectMixin(object):
         history = [response]  # keep track of history; seed it with the original response
 
         location_url = self.get_redirect_target(response)
-
+        previous_fragment = urlparse(request.url).fragment
         while location_url:
             prepared_request = request.copy()
 
@@ -154,8 +154,12 @@ class SessionRedirectMixin(object):
                 parsed_rurl = urlparse(response.url)
                 location_url = '%s:%s' % (to_native_string(parsed_rurl.scheme), location_url)
 
-            # The scheme should be lower case...
+            # Normalize url case and attach previous fragment if needed (RFC 7231 7.1.2)
             parsed = urlparse(location_url)
+            if parsed.fragment == '' and previous_fragment:
+                parsed = parsed._replace(fragment=previous_fragment)
+            elif parsed.fragment:
+                previous_fragment = parsed.fragment
             location_url = parsed.geturl()
 
             # Facilitate relative 'location' headers, as allowed by RFC 7231.
@@ -720,7 +724,7 @@ class Session(SessionRedirectMixin):
         """
         for (prefix, adapter) in self.adapters.items():
 
-            if url.lower().startswith(prefix):
+            if url.lower().startswith(prefix.lower()):
                 return adapter
 
         # Nothing matches :-/

@@ -108,17 +108,7 @@ Status Code Lookup
 
 .. autoclass:: requests.codes
 
-::
-
-    >>> requests.codes['temporary_redirect']
-    307
-
-    >>> requests.codes.teapot
-    418
-
-    >>> requests.codes['\o/']
-    200
-
+.. automodule:: requests.status_codes
 
 
 Migrating to 1.x
@@ -190,7 +180,7 @@ API Changes
 
       logging.basicConfig() # you need to initialize logging, otherwise you will not see anything from requests
       logging.getLogger().setLevel(logging.DEBUG)
-      requests_log = logging.getLogger("requests.packages.urllib3")
+      requests_log = logging.getLogger("urllib3")
       requests_log.setLevel(logging.DEBUG)
       requests_log.propagate = True
 
