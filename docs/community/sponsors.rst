@@ -67,7 +67,7 @@ providing easy–to–use APIs, and empowering developers world-over to help hum
 Azure was the third organization to generously donate a large sum towards the `2018 Requests 3.0 fundraiser <https://www.kennethreitz.org/requests3>`_, matching the donation of Twilio! Awesome group of generous folks :)
 
 
-`Niteo — Web Systems Development <https://www.niteoweb.com>`_
+`Niteo — Web Systems Development <https://niteo.co>`_
 /////////////////////////////////////////////////////////////
 
 Niteo was the fourth company to generously donate towards the `2018 Requests 3.0 fundraiser <https://www.kennethreitz.org/requests3>`_. Niteo is a company employing tech enthusiasts from all over the world
